@@ -3,7 +3,7 @@
 # LADOT COVID19 Enforcement
 ## About the Project
 ### Goal
-The project aims to analyze the City of Los Angeles's transition plan to resume street sweeping on October 15th, 2020.
+Using Los Angeles parking citation data, social media data, and city council records the aim of this project is to analyze the city's transition plan to resume street sweeper services on 10/15/2020. 
 
 ### Background
 
@@ -50,11 +50,14 @@ Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/
 ## Initial Thoughts & Hypotheses
 ### Thoughts
 
+
 ### Hypotheses
 
 ## Project Steps
 ### Acquire
 Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion). The data is stored in a file named `parking-citations.csv`. The file contains approximately 7 years worth of parking citations issued in Los Angeles, California.
+
+[Placeholder: Web Scraping]
 
 ### Prepare
 **Missing Values**
@@ -77,9 +80,19 @@ Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-
 - Created a new column called `issue_hour`.
 - Created a new column called `issue_minute`.
 
+[Placeholder: Prep Web Scraped Data]
+
 ### Explore
 
+
 ### Conclusions
+
+
+### Future Investigations
+#### What are your next steps?
+- A
+- B
+- C
 
 ## How to Reproduce
 All files are reproducible and available for download and use.
