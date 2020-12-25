@@ -10,9 +10,8 @@ The project aims to analyze the City of Los Angeles's transition plan to resume 
 
 ### Deliverables
 - Tablaeu Map
-- Presentation
-- MVP Notebook
-- Final Notebook
+- [MVP Notebook]
+- [Final Notebook](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/summary.ipynb)
 - Slide Presentation
 - Video presentation
 
