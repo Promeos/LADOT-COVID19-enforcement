@@ -1,4 +1,4 @@
-# LADOT Street Sweep Enforcement
+![Header](visuals/ladot.png)
 ## About the Project
 ### Goals
 
@@ -18,5 +18,3 @@
 ## How to Reproduce
 ### Steps
 ### Tools & Requirements
-## License
-## Creators
