@@ -9,15 +9,14 @@ The project aims to analyze the City of Los Angeles's transition plan to resume 
 
 
 ### Deliverables
-- Tablaeu Map
-- [MVP Notebook]
+- [Tablaeu Map](https://public.tableau.com/profile/promeos#!/vizhome/LADOTCOVID19StreetSweeperCitations/enforcement-10152020?publish=yes)
+- [MVP Notebook](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/MVP.ipynb)
 - [Final Notebook](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/summary.ipynb)
-- Slide Presentation
+- [Slide Presentation](https://www.canva.com/design/DAERUYKNmnQ/0g_1Ed6ynJUkhXlPImCR9w/view?utm_content=DAERUYKNmnQ&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton)
 - Video presentation
 
 ### Project Management
 - [Trello Board](https://trello.com/b/A1KCGKQN/ladot-covid19-enforcement)
-
 
 ### Acknowledgments
 This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
