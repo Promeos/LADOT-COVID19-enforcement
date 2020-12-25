@@ -59,6 +59,26 @@ Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/
 Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion). The data is stored in a file named `parking-citations.csv`. The file contains approximately 7 years worth of parking citations issued in Los Angeles, California.
 
 ### Prepare
+**Missing Values**
+- Dropped rows missing latitude and longitude data. 99999.0 indicates null.
+- Dropped rows missing license plate expiration date.
+- Dropped columns: vin, marked_time, color_description, body_style_description, agency_description, meter_id, ticker_number
+- Dropped rows with missing values.
+
+**Data Type Casting, Metric Conversion, and Formatting**
+- Converted all numeric date columns to datetime.
+- Converted issue_time from a float to TimeStamp.
+- Converted agency from a float to an integer.
+- Converted latitude amd longitude values from US Feet coordinates \[NAD1983StatePlaneCaliforniaVFIPS0405_Feet projection] to standard coordinates.
+  - Used folium and pyproj library to convert the coordinates.
+- Removed capitalization and spacing from column names.
+  
+**Feature Engineering**
+- Created a new column called `day_of_week`.
+- Created a new column called `issue_year`.
+- Created a new column called `issue_hour`.
+- Created a new column called `issue_minute`.
+
 
 ### Explore
 
