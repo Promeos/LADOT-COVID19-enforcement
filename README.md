@@ -79,13 +79,14 @@ Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-
 - Created a new column called `issue_hour`.
 - Created a new column called `issue_minute`.
 
-
 ### Explore
 
 ### Conclusions
 
 ## How to Reproduce
-
-### Steps
+All files are reproducible and available for download and use.
+- [x] Read this README.md
+- [ ] Clone this repository
+- [ ] Acquire the dataset from [Kaggle](https://www.kaggle.com/cityofLA/los-angeles-parking-citations?select=LADOT-Xerox+Crib+Sheet+Agency+Codes+12-31-2015+%281%29.pdf).
 
 ### Tools & Requirements
