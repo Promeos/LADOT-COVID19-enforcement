@@ -1,4 +1,4 @@
-# Street Sweep Notifications
+# LADOT Street Sweep Enforcement
 ## About the Project
 ### Goals
 
