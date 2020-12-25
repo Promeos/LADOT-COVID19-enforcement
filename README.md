@@ -83,7 +83,16 @@ Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-
 [Placeholder: Prep Web Scraped Data]
 
 ### Explore
+Parking Citations
+[Map of citations]
+[Hypothesis Tests]
 
+Text data
+[Newspapers: City Council, LADOT]
+[Youtube: City Council, LADOT]
+[Twitter: City Council, LADOT]
+[Sentiment Analysis]
+[Word Clouds]
 
 ### Conclusions
 
@@ -102,3 +111,7 @@ All files are reproducible and available for download and use.
 - [ ] Run Summary.ipynb
 
 ### Tools & Requirements
+- pyproj
+> `pip install pyproj`
+- folium
+> `pip install folium`
