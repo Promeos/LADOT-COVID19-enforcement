@@ -88,5 +88,6 @@ All files are reproducible and available for download and use.
 - [x] Read this README.md
 - [ ] Clone this repository
 - [ ] Acquire the dataset from [Kaggle](https://www.kaggle.com/cityofLA/los-angeles-parking-citations?select=LADOT-Xerox+Crib+Sheet+Agency+Codes+12-31-2015+%281%29.pdf).
+- [ ] Run Summary.ipynb
 
 ### Tools & Requirements
