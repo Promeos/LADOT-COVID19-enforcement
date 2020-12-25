@@ -1,6 +1,8 @@
 # Write supporting functions here
 import pandas as pd
 import numpy as np
+import folium
+from pyproj import Proj, transform
 
 
 def pct_missing_values_per_column(df):
@@ -76,11 +78,27 @@ def prep_la_data(df):
     df = df.loc[(df.longitude != 99999.0)&(df.latitude != 99999.0)]
     
     # Set the index to issue_date and sort in ascending order
-    df.set_index('issue_date', inplace=True)
-    df.sort_index(inplace=True)
-    
-    # Filter dataset to include the past 5 years.
-    df = df['2015':'2020']
+    df.reset_index(drop=True, inplace=True)
     
     # Return the prepared dataframe.
+    return df
+
+
+def convert_coordinates(df):
+    '''
+    
+    '''
+    pm = '+proj=lcc +lat_1=34.03333333333333 +lat_2=35.46666666666667 +lat_0=33.5 +lon_0=-118 +x_0=2000000 ' \
+         '+y_0=500000.0000000002 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs'
+
+
+    x_coord, y_coord = df['latitude'].values, df['longitude'].values
+
+    df['longitude'], df['latitude'] = transform(Proj(pm, preserve_units = True),
+                                                Proj("+init=epsg:4326")
+                                                ,x_coord
+                                                ,y_coord)
+    df.latitude = np.round(df.latitude, 4)
+    df.longitude = np.round(df.longitude, 4)
+    
     return df
