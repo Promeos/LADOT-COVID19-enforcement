@@ -46,6 +46,8 @@ Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/
 | issue_hour             | The hour the citation was issued.                                                  |
 | issue_minute           | The minute the citation was issued.                                                |
 
+**City Documents**
+[Placeholder]
 
 ## Initial Thoughts & Hypotheses
 ### Thoughts
