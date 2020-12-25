@@ -1,21 +1,29 @@
 ![Header](visuals/ladot.png)
+
+# LADOT COVID19 Enforcement
 ## About the Project
 ### Goal
 The project aims to analyze the City of Los Angeles's transition plan to resume street sweeping on October 15th, 2020.
 
 ### Background
- 
+
 
 ### Deliverables
-- Summary Notebook
-- Tablaeu
-- Trello
+- Tablaeu Map
 - Presentation
+- MVP Notebook
+- Final Notebook
+- Slide Presentation
+- Video presentation
+
+### Project Management
+- [Trello Board](https://trello.com/b/A1KCGKQN/ladot-covid19-enforcement)
+
 
 ### Acknowledgments
-> This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
+This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
 
-> Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
+Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
 
 ## Data Dictionary
 | Feature Name           | Description                                                                        |
@@ -48,7 +56,8 @@ The project aims to analyze the City of Los Angeles's transition plan to resume 
 
 ## Project Steps
 ### Acquire
-Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion).<br>
+Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion). The data is stored in a file named `parking-citations.csv`. The file contains approximately 7 years worth of parking citations issued in Los Angeles, California.
+
 ### Prepare
 
 ### Explore
