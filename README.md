@@ -1,21 +1,28 @@
 ![Header](visuals/ladot.png)
+
+# LADOT COVID19 Enforcement
 ## About the Project
 ### Goal
 The project aims to analyze the City of Los Angeles's transition plan to resume street sweeping on October 15th, 2020.
 
 ### Background
- 
+
 
 ### Deliverables
-- Summary Notebook
-- Tablaeu
-- Trello
-- Presentation
+- Tablaeu Map
+- [MVP Notebook]
+- [Final Notebook](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/summary.ipynb)
+- Slide Presentation
+- Video presentation
+
+### Project Management
+- [Trello Board](https://trello.com/b/A1KCGKQN/ladot-covid19-enforcement)
+
 
 ### Acknowledgments
-> This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
+This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
 
-> Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
+Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
 
 ## Data Dictionary
 | Feature Name           | Description                                                                        |
@@ -48,15 +55,38 @@ The project aims to analyze the City of Los Angeles's transition plan to resume 
 
 ## Project Steps
 ### Acquire
-Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion).<br>
+Download the dataset [here](https://www.kaggle.com/cityofLA/los-angeles-parking-citations/discussion). The data is stored in a file named `parking-citations.csv`. The file contains approximately 7 years worth of parking citations issued in Los Angeles, California.
+
 ### Prepare
+**Missing Values**
+- Dropped rows missing latitude and longitude data. 99999.0 indicates null.
+- Dropped rows missing license plate expiration date.
+- Dropped columns: vin, marked_time, color_description, body_style_description, agency_description, meter_id, ticker_number
+- Dropped rows with missing values.
+
+**Data Type Casting, Metric Conversion, and Formatting**
+- Converted all numeric date columns to datetime.
+- Converted issue_time from a float to TimeStamp.
+- Converted agency from a float to an integer.
+- Converted latitude amd longitude values from US Feet coordinates \[NAD1983StatePlaneCaliforniaVFIPS0405_Feet projection] to standard coordinates.
+  - Used folium and pyproj library to convert the coordinates.
+- Removed capitalization and spacing from column names.
+  
+**Feature Engineering**
+- Created a new column called `day_of_week`.
+- Created a new column called `issue_year`.
+- Created a new column called `issue_hour`.
+- Created a new column called `issue_minute`.
 
 ### Explore
 
 ### Conclusions
 
 ## How to Reproduce
-
-### Steps
+All files are reproducible and available for download and use.
+- [x] Read this README.md
+- [ ] Clone this repository
+- [ ] Acquire the dataset from [Kaggle](https://www.kaggle.com/cityofLA/los-angeles-parking-citations?select=LADOT-Xerox+Crib+Sheet+Agency+Codes+12-31-2015+%281%29.pdf).
+- [ ] Run Summary.ipynb
 
 ### Tools & Requirements
