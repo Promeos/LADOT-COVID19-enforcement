@@ -4,6 +4,4 @@ __pycache__
 .vscode/
 *.csv
 *.json
-data/
-data2/
-notebooks/
+sweeper_routes/
