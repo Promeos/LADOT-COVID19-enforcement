@@ -1,6 +1,7 @@
-# Write supporting functions here
+# Import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-def run():
-    print("Explore: Generating visuals...")
-    # Write code here
-    print("Explore: Completed!")
+############################### Visualizations ###########################################
