@@ -2,8 +2,11 @@
 
 # LADOT COVID19 Enforcement
 ## About the Project
-### Goal
-Using Los Angeles parking citation data, social media data, and city council records the aim of this project is to analyze the city's transition plan to resume street sweeper services on 10/15/2020. 
+### Goals
+Using Los Angeles parking citation data, social media data, and city council records the aim of this project is to analyze the city's transition plan to resume street sweeper services on 10/15/2020.
+
+1. Read documents from City Council and the Department of Transportation.
+2. Analyze the effectiveness of "public outreach" using social media, youtube, and news articles.
 
 ### Background
 
@@ -21,7 +24,6 @@ Using Los Angeles parking citation data, social media data, and city council rec
 ### Acknowledgments
 This dataset is maintained using Socrata's API and Kaggle's API. Socrata has assisted countless organizations with hosting their open data and has been an integral part of the process of bringing more data to the public.<br><br>
 
-Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
 
 ## Data Dictionary
 | Feature Name           | Description                                                                        |
@@ -47,13 +49,19 @@ Download Los Angeles City Council documents [here](https://cityclerk.lacity.org/
 | issue_minute           | The minute the citation was issued.                                                |
 
 **City Documents**
-[Placeholder]
+Access the Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
 
 ## Initial Thoughts & Hypotheses
 ### Thoughts
-
+- Why did street sweeping services resume?
+- What was the city's public outreach? Was it effective?
+- How did residents react?
+- Which streets and neighborhoods were effected the most?
 
 ### Hypotheses
+1. Fines collected from 10/15/2020 - 11/15/2020 was significantly greater than previous years, months.
+2. The public's reaction to LADOT's enforcement on 10/15/2020 was mostly negative.
+3. Public outreach efforts were ineffective.
 
 ## Project Steps
 ### Acquire
