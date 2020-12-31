@@ -45,7 +45,102 @@ def get_sweep_data():
         df_sweep.to_csv(filename, index=False)
         return df_sweep
 
+    
+############################# Acquire News Articles ######################################
+def check_local_cache(file_name):
+    '''
+    Accepts a filename and checks to see if a local
+    cached version of the data exists
+    
+    Returns endpoint data as a pandas DataFrame if a local cache exists
+    Returns False if a local cache does not exist.
+    
+    Parameters
+    ----------
+    file_name : str
+        
+    Returns
+    -------
+    Return cached file as a pandas DataFrame if : os.path.isfile(file_name) == True
+    Return False otherwise
+    '''
+    if os.path.isfile(file_name):
+        f = open(file_name)
+        data = json.load(f)
+        return data
+    else:
+        return False
 
+
+def url_request(url):
+    '''
+    Accepts a URL
+    Returns a response object
+    '''
+    headers = {"User-Agent": "Codeup Data Science"}
+    response = get(url, headers=headers)
+    return response
+    
+
+def web_scrape_in_progress(requests, response, start_time):
+    '''
+    
+    '''
+    if response.status_code != 200:
+        warn(f"Request{requests}, Status Code {response.status_code}")
+    elapsed_time = time() - start_time
+    sleep(randint(1, 2))
+    requests += 1
+    print(f'Request: {requests}; Frequency: {requests/elapsed_time:.2f} requests/s')
+    clear_output(wait=True)
+    return requests
+
+
+def get_news_articles():
+    '''
+    This function returns 3 articles as list of dictionaries.
+    
+    Each dictionary has a title, date published, and article.
+    '''
+    file_name = 'news_articles.json'
+    # Check to see if a local cache of data exists
+    cache = check_local_cache(file_name=file_name)
+    
+    # If a local cache does not exist, scrape the blog posts
+    if cache is False:
+        # Create a counter and timer to display update messages throughout the query
+        requests = 0
+        start_time = time()
+        
+        # Create an empty list to store each article as a dictionary.
+        blog_posts = []
+        
+        # The websites we want to scrape
+        blog_urls = [
+            'https://www.latimes.com/california/story/2020-03-16/los-angeles-parking-ticket-street-sweeping-coronavirus-covid19',
+            'https://www.latimes.com/california/story/2020-10-15/street-sweeping-parking-enforcement-resumes-today',
+            'https://abc7.com/society/las-resumed-parking-enforcement-prompts-outcry/7079278/'
+        ]
+
+        for url in blog_urls:
+            response = url_request(url=url)
+            
+            requests = web_scrape_in_progress(requests=requests, response=response, start_time=start_time)
+            
+            soup = BeautifulSoup(response.text, 'html.parser')
+
+            title = soup.find('title').text
+            date_published = soup.find('time', itemprop='datePublished').text
+            article = soup.find('div', class_='jupiterx-post-content').text
+
+            blog_posts.append({'title': title,
+                               'date_published': date_published,
+                               'article': article})
+
+        pd.DataFrame(blog_posts).to_json(file_name)
+        return blog_posts
+    else:
+        return cache
 #################################### Acquire Social Media Data ######################################
 def  get_yt_data():
     '''
