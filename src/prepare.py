@@ -5,6 +5,7 @@ import os
 import unicodedata
 import re
 import json
+from acquire import get_citation_data
 
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize.toktok import ToktokTokenizer
@@ -215,13 +216,20 @@ def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
     This function accepts a dataframe of text values.
     Returns a normalized version of the text in a dataframe.
     '''
+    # Initialize english stopwords list
     stopword_list = stopwords.words('english')
     
+    # Remove specific stopwords from the stopwords list
     stopword_list = set(stopword_list) - set(remove_from_stopwords)
+    
+    # Add specific words to a stopwords list.
     stopword_list = stopword_list.union(set(add_to_stopwords))
     
+    # Split the string and remove stopwords.
     words = string.split()
     filtered_words = [word for word in words if word not in stopword_list]
+    
+    # Join the list together into a single string.
     string_without_stopwords = ' '.join(filtered_words)
     
     return string_without_stopwords
@@ -232,6 +240,7 @@ def prep_article_data(df, column='', add_to_stopwords=[], remove_from_stopwords=
     This function accepts a dataframe of text values
     Returns a dataframe of normalized text data.
     '''
+    # Normalize text values.
     df['clean'] = df[column].apply(basic_clean)\
                             .apply(tokenize)\
                             .apply(remove_stopwords, 
@@ -243,9 +252,11 @@ def prep_article_data(df, column='', add_to_stopwords=[], remove_from_stopwords=
     
     df['lemmatized'] = df[column].apply(basic_clean).apply(lemmatize)
     
+    # Split strings and store in a list. Convert list into a dataframe
     words = [re.sub(r'([^a-z0-9\s]|\s.\s)', '', doc).split() for doc in df.clean]
     words = pd.DataFrame({'words': words})
 
+    # Reset index to merge dataframes together
     df.reset_index(drop=True, inplace=True)
     words.reset_index(drop=True, inplace=True)
 
@@ -278,29 +289,37 @@ def prep_sweep_data(df):
     df : pandas.core.DataFrame
         Returns a pandas dataframe with latitude and longitude columns with EPSG:4326 values.
     '''
-    # Remove spaces and lowercase column names.
-    formatted_column_names = [x.replace(' ', '_').lower() for x in df.columns.to_list()]
-    df.columns = formatted_column_names
+    filename = 'train.csv'
     
-    # Cast plate expiration from a float to a datetime data type.
-    df.plate_expiry_date = df.plate_expiry_date.fillna(0).astype(np.int)
-    df.plate_expiry_date = pd.to_datetime(df.plate_expiry_date, format='%Y%m', errors='coerce')
-    
-    # Cast issue_date and issue_time from a string to a datetime data type.
-    df.issue_date = pd.to_datetime(df.issue_date)
-    df.issue_time = pd.to_datetime(df.issue_time, format='%H%M', errors='coerce')
-    
-    # Convert agency from float to integer
-    df.agency = df.agency.astype(np.int)
+    if os.path.exists(filename):
+        return pd.read_csv(filename)
+    else: 
+        # Remove spaces and lowercase column names.
+        formatted_column_names = [x.replace(' ', '_').lower() for x in df.columns.to_list()]
+        df.columns = formatted_column_names
+        
+        # Cast plate expiration from a float to a datetime data type.
+        df.plate_expiry_date = df.plate_expiry_date.fillna(0).astype(np.int)
+        df.plate_expiry_date = pd.to_datetime(df.plate_expiry_date, format='%Y%m', errors='coerce')
+        
+        # Cast issue_date and issue_time from a string to a datetime data type.
+        df.issue_date = pd.to_datetime(df.issue_date)
+        df.issue_time = pd.to_datetime(df.issue_time, format='%H%M', errors='coerce')
+        
+        # Convert agency from float to integer
+        df.agency = df.agency.astype(np.int)
 
-    # Drop columns, convert coordinates, and add new features
-    df = drop_features(df)
-    df = convert_coordinates(df)
-    df = add_features(df)
-    
-    # Drop the index and sort by issue_date
-    df = df.sort_values(by='issue_date')
-    df.reset_index(drop=True, inplace=True)
-    
-    # Return the prepared dataframe.
-    return df
+        # Drop columns, convert coordinates, and add new features
+        df = drop_features(df)
+        df = convert_coordinates(df)
+        df = add_features(df)
+        
+        # Drop the index and sort by issue_date
+        df = df.sort_values(by='issue_date')
+        df.reset_index(drop=True, inplace=True)
+        
+        # Cache file
+        df.to_csv(filename, index=False)
+        
+        # Return the prepared dataframe.
+        return df
