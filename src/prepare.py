@@ -10,7 +10,6 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 
-
 # Library to covert coordinates.
 from pyproj import Proj, transform
 
@@ -145,7 +144,7 @@ def add_features(df):
     return df
 
 
-############################## Text Preparation #######################################
+############################## Text Preparation ######################################
 def basic_clean(string):
     '''
     This function accepts a string and return a normalized string.
@@ -189,12 +188,32 @@ def tokenize(string):
     tokenizer = ToktokTokenizer()
     tokenized_string = tokenizer.tokenize(string, return_str=True)
     return tokenized_string
+    
+    
+def stem(string):
+    '''
+    
+    '''
+    ps = PorterStemmer()
+    stems = [ps.stem(word) for word in string.split()]
+    stemmed_string = ' '.join(stems)
+    return stemmed_string
+
+
+def lemmatize(string):
+    '''
+    
+    '''
+    wnl = WordNetLemmatizer()
+    lemmas = [wnl.lemmatize(word) for word in string.split()]
+    lemmatized_string = ' '.join(lemmas)
+    return lemmatized_string
 
 
 def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
     '''
-    This function accepts a string.
-    Returns a new string with stopwords removed.
+    This function accepts a dataframe of text values.
+    Returns a normalized version of the text in a dataframe.
     '''
     stopword_list = stopwords.words('english')
     
@@ -210,20 +229,31 @@ def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
 
 def prep_article_data(df, column='', add_to_stopwords=[], remove_from_stopwords=[]):
     '''
-    This function accepts a dataframe of text values.
-    Returns a normalized version of the text in a dataframe.
+    This function accepts a dataframe of text values
+    Returns a dataframe of normalized text data.
     '''
-    
     df['clean'] = df[column].apply(basic_clean)\
                             .apply(tokenize)\
                             .apply(remove_stopwords, 
                                    add_to_stopwords=add_to_stopwords, 
-                                   remove_from_stopwords=remove_from_stopwords)
+                                   remove_from_stopwords=remove_from_stopwords)\
+                            .apply(lemmatize)
     
-    return df[[column, 'clean']]
+    df['stemmed'] = df[column].apply(basic_clean).apply(stem)
     
+    df['lemmatized'] = df[column].apply(basic_clean).apply(lemmatize)
+    
+    words = [re.sub(r'([^a-z0-9\s]|\s.\s)', '', doc).split() for doc in df.clean]
+    words = pd.DataFrame({'words': words})
 
-    
+    df.reset_index(drop=True, inplace=True)
+    words.reset_index(drop=True, inplace=True)
+
+    # column name will be words, and the column will contain lists of the words in each doc
+    df_text = pd.concat([df, words], axis=1)
+        
+    return df_text[['title', column, 'stemmed', 'lemmatized', 'clean', 'words']]
+  
 ################################ Main Data Prep #########################################
 def prep_sweep_data(df):
     '''
