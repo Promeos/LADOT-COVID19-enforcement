@@ -27,7 +27,7 @@ def get_citation_data():
 def get_sweep_data():
     '''
     Returns a dataframe of Street Sweeping citations issued in Los Angeles, CA
-    from 2017-Today.
+    from 2017-2020.
     '''
     # File name of street sweeping data
     filename = 'street-sweeping-data.csv'

@@ -125,7 +125,7 @@ def convert_coordinates(df):
 
 def add_features(df):
     '''
-    Accepts a dataframe
+    Accepts a parking citation dataframe
     Returns a dataframe with new features: day_of_week, issue_year, issue_hour, and issue_minute
     '''
     # Create features using issue_data and issue_time
@@ -189,35 +189,15 @@ def tokenize(string):
     tokenizer = ToktokTokenizer()
     tokenized_string = tokenizer.tokenize(string, return_str=True)
     return tokenized_string
-    
-    
-def stem(string):
-    '''
-    
-    '''
-    ps = PorterStemmer()
-    stems = [ps.stem(word) for word in string.split()]
-    stemmed_string = ' '.join(stems)
-    return stemmed_string
-
-
-def lemmatize(string):
-    '''
-    
-    '''
-    wnl = WordNetLemmatizer()
-    lemmas = [wnl.lemmatize(word) for word in string.split()]
-    lemmatized_string = ' '.join(lemmas)
-    return lemmatized_string
 
 
 def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
     '''
-    
+    This function accepts a string.
+    Returns a new string with stopwords removed.
     '''
     stopword_list = stopwords.words('english')
     
-    # Thank you Faith
     stopword_list = set(stopword_list) - set(remove_from_stopwords)
     stopword_list = stopword_list.union(set(add_to_stopwords))
     
@@ -230,21 +210,20 @@ def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
 
 def prep_article_data(df, column='', add_to_stopwords=[], remove_from_stopwords=[]):
     '''
-    
+    This function accepts a dataframe of text values.
+    Returns a normalized version of the text in a dataframe.
     '''
+    
     df['clean'] = df[column].apply(basic_clean)\
                             .apply(tokenize)\
                             .apply(remove_stopwords, 
                                    add_to_stopwords=add_to_stopwords, 
                                    remove_from_stopwords=remove_from_stopwords)
     
-    df['stemmed'] = df[column].apply(basic_clean).apply(stem)
-    
-    df['lemmatized'] = df[column].apply(basic_clean).apply(lemmatize)
-    
-    return df[['title', column, 'stemmed', 'lemmatized', 'clean']]
+    return df[[column, 'clean']]
     
 
+    
 ################################ Main Data Prep #########################################
 def prep_sweep_data(df):
     '''
