@@ -6,3 +6,4 @@ __pycache__
 *.json
 sweeper_routes/
 *.mov
+news.ipynb
