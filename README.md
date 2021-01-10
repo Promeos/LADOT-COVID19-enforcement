@@ -28,25 +28,25 @@ This dataset is maintained using Socrata's API and Kaggle's API. Socrata has ass
 ## Data Dictionary
 | Feature Name           | Description                                                                        |
 |------------------------|------------------------------------------------------------------------------------|
-| issue_date             | The date the citation was issued. yyyy-mm-dd date format                           |
-| issue_time             | The time the citation was issued. HH-MM-ss time format, 24hrs.                     |
-| rp_state_plate         | The state license plate. Abbreviated format ex.CA, TX                              |
+| issue_date             | The citation date formatted as yyyy-mm-dd                                          |
+| issue_time             | The citation time formatted as HH-MM-ss 24HRS                                      |
+| rp_state_plate         | The state license plate i.e. CA, TX                                                |
 | plate_expiry_date      | The date the license plates expire.yyyy-mm-dd date format                          |
 | make                   | Indicates the car manufacturer ex. NISS is Nissan.                                 |
 | body_style             | Indicates the body style of the car. PA is a Passenger vehicle with four doors.    |
 | color                  | The color of the vehicle.                                                          |
-| location               | The street number and street name the citation was issued.                         |
-| route                  | Indicates the section of the city where the citation was issued.                   |
-| agency                 | The agency that issued the citation. See city-documents/LADOT/agency-names.pdf     |
+| location               | The street name and number where the citation was issued.                          |
+| route                  | Indicates the route that issued the citation                                       |
+| agency                 | The issuing agency. See city-documents/LADOT/agency-names.pdf                      |
 | violtion_code          | The Alpha-numeric code used to indicate the type of violation.                     |
 | violation_description  | Short description of the parking citation.                                         |
-| fine_amount            | The amount of the citation.                                                        |
-| latitude               | The latitude of the citation location.                                             |
-| longitude              | The longitude of the citaiton location.                                            |
+| fine_amount            | The citation fee in USD.                                                           |
+| latitude               | Latitude of the citation location.                                                 |
+| longitude              | Longitude of the citaiton location.                                                |
 | day_of_week            | The day of the week the citation was issued.                                       |
-| issue_year             | The year the citation was issued.                                                  |
-| issue_hour             | The hour the citation was issued.                                                  |
-| issue_minute           | The minute the citation was issued.                                                |
+| issue_year             | The citation year.                                                                 |
+| issue_hour             | The citation hour- 24HR format                                                     |
+| issue_minute           | The citation minute.                                                               |
 
 **City Documents**
 Access the Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
@@ -59,8 +59,8 @@ Access the Los Angeles City Council documents [here](https://cityclerk.lacity.or
 - Which streets and neighborhoods were effected the most?
 
 ### Hypotheses
-1. Fines collected from 10/15/2020 - 11/15/2020 was significantly greater than previous years, months.
-2. The public's reaction to LADOT's enforcement on 10/15/2020 was mostly negative.
+1. Fines collected from 10/15/2020 - 11/15/2020 significantly greater than average?
+2. Was the public's sentiment of LADOT's enforcement on 10/15/2020 negative?
 3. Public outreach efforts were ineffective.
 
 ## Project Steps
