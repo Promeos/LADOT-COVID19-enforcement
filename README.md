@@ -1,14 +1,21 @@
 ![Header](visuals/ladot.png)
 
 # LADOT COVID19 Enforcement
-## About the Project
-### Goals
-Using Los Angeles parking citation data, social media data, and city council records the aim of this project is to analyze the city's transition plan to resume street sweeper services on 10/15/2020.
+## Goals
+Using parking citation data, social media data, and city council records the aim of this project is to analyze the City of Los Angeles' transition plan to resume street sweeper services on 10/15/2020.
 
 1. Read documents from City Council and the Department of Transportation.
 2. Analyze the effectiveness of "public outreach" using social media, youtube, and news articles.
 
-### Background
+## Background
+
+### Declaration of Local Emergency
+"On March 4, 2020, the Mayor [of Los Angeles] declared a local emergency in response to the COVID-19 pandemic. On March 6, the City Council approved a resolution ratifying the Declaration of Local Emergency. With the Declaration of a Local Emergency and the unique public health risks posed by COVID-19, on March 16, the Mayor relaxed parking enforcement across the City putting a temporary halt to the issuance of several citations so that residents can more effectively practice the safe social distancing necessary during the outbreak. Subsequently, LADOT relaxed enforcement for the following categories:<br>
+- __Residential street sweeping__
+- Expired registration on a vehicle
+- Peak/rush hour and anti-gridlock zone parking restrictions
+- Vehicles displaying recently expired permits within preferential parking districts were granted a two-week grace period following the expiration
+- No ticket or tow for abandoned vehicles, overnight parking, or oversize vehicles." - [source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)<br>
 
 
 ### Deliverables
