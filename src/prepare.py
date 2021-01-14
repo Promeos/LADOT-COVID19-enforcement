@@ -2,14 +2,10 @@
 import pandas as pd
 import numpy as np
 import os
-import unicodedata
 import re
 import json
-from acquire import get_citation_data
 
-from nltk.stem import PorterStemmer, WordNetLemmatizer
-from nltk.tokenize.toktok import ToktokTokenizer
-from nltk.corpus import stopwords
+from acquire import get_citation_data
 
 # Library to covert coordinates.
 from pyproj import Proj, transform
@@ -56,13 +52,15 @@ def drop_features(df):
     Returns a dataframe.
     '''
     # Columns missing more than 70% of values.
+    # Analyzing 1 citation, "Street Sweeping" drop 'violation code'.
     columns_to_drop =['vin',
                       'marked_time',
                       'color_description',
                       'body_style_description',
                       'agency_description',
                       'meter_id',
-                      'ticket_number']
+                      'ticket_number',
+                      'violation_code']
     
     # Drop columns
     df.drop(columns=columns_to_drop, inplace=True)
@@ -112,14 +110,14 @@ def convert_coordinates(df):
                                                 x=x_latitude,
                                                 y=y_longitude)
     
-    # Round lat/log values to standardize.
+    # Normalize lat/log values by rounding to 4 digits.
     df.latitude = np.round(df.latitude, 4)
     df.longitude = np.round(df.longitude, 4)
     
     # Drop citations missing coordinates.
     df = df.loc[(df.longitude != 99999.0)&(df.latitude != 99999.0)]
     
-    # Return the dataframe with the transformed columns.
+    # Return the dataframe with the transformed lat/long.
     return df
 
 
@@ -136,7 +134,7 @@ def add_features(df):
     issue_minute = df.issue_time.dt.minute,
     issue_time = df.issue_time.dt.time
 )
-    # Cast new features from float to int.
+    # Cast new features from float to int dtype.
     df.issue_year = df.issue_year.astype(int)
     df.issue_hour = df.issue_hour.astype(int)
     df.issue_minute = df.issue_minute.astype(int)
@@ -144,134 +142,12 @@ def add_features(df):
     # Return data
     return df
 
-
-############################## Text Preparation ######################################
-def basic_clean(string):
-    '''
-    This function accepts a string and return a normalized string.
-    
-    parameters
-    ----------
-    string : str
-        A string to be normalized for natural language processing
-    
-    returns
-    -------
-    cleaned_string : str
-        A lower-cased string encoded to ASCII and decoded to UTF-8.
-    '''
-    # Remove accented characters
-    string = unicodedata.normalize('NFKD', string.lower())\
-            .encode('ascii', 'ignore')\
-            .decode('utf-8', 'ignore')
-    
-    # Remove special characters == Include only alpha-numeric characters
-    cleaned_string = re.sub(r'[^a-z0-9\s]', '', string)
-    return cleaned_string
-
-
-def tokenize(string):
-    '''
-    This function accepts a string and returns a tokenized form of the string
-    
-    parameters
-    ----------
-    string : str
-        A string to be tokenized for natural language processing.
-        
-    returns
-    -------
-    tokenized_string
-    
-    returns
-    -------
-    '''
-    tokenizer = ToktokTokenizer()
-    tokenized_string = tokenizer.tokenize(string, return_str=True)
-    return tokenized_string
-    
-    
-def stem(string):
-    '''
-    
-    '''
-    ps = PorterStemmer()
-    stems = [ps.stem(word) for word in string.split()]
-    stemmed_string = ' '.join(stems)
-    return stemmed_string
-
-
-def lemmatize(string):
-    '''
-    
-    '''
-    wnl = WordNetLemmatizer()
-    lemmas = [wnl.lemmatize(word) for word in string.split()]
-    lemmatized_string = ' '.join(lemmas)
-    return lemmatized_string
-
-
-def remove_stopwords(string, add_to_stopwords=[], remove_from_stopwords=[]):
-    '''
-    This function accepts a dataframe of text values.
-    Returns a normalized version of the text in a dataframe.
-    '''
-    # Initialize english stopwords list
-    stopword_list = stopwords.words('english')
-    
-    # Remove specific stopwords from the stopwords list
-    stopword_list = set(stopword_list) - set(remove_from_stopwords)
-    
-    # Add specific words to a stopwords list.
-    stopword_list = stopword_list.union(set(add_to_stopwords))
-    
-    # Split the string and remove stopwords.
-    words = string.split()
-    filtered_words = [word for word in words if word not in stopword_list]
-    
-    # Join the list together into a single string.
-    string_without_stopwords = ' '.join(filtered_words)
-    
-    return string_without_stopwords
-
-
-def prep_article_data(df, column='', add_to_stopwords=[], remove_from_stopwords=[]):
-    '''
-    This function accepts a dataframe of text values
-    Returns a dataframe of normalized text data.
-    '''
-    # Normalize text values.
-    df['clean'] = df[column].apply(basic_clean)\
-                            .apply(tokenize)\
-                            .apply(remove_stopwords, 
-                                   add_to_stopwords=add_to_stopwords, 
-                                   remove_from_stopwords=remove_from_stopwords)\
-                            .apply(lemmatize)
-    
-    df['stemmed'] = df[column].apply(basic_clean).apply(stem)
-    
-    df['lemmatized'] = df[column].apply(basic_clean).apply(lemmatize)
-    
-    # Split strings and store in a list. Convert list into a dataframe
-    words = [re.sub(r'([^a-z0-9\s]|\s.\s)', '', doc).split() for doc in df.clean]
-    words = pd.DataFrame({'words': words})
-
-    # Reset index to merge dataframes together
-    df.reset_index(drop=True, inplace=True)
-    words.reset_index(drop=True, inplace=True)
-
-    # column name will be words, and the column will contain lists of the words in each doc
-    df_text = pd.concat([df, words], axis=1)
-        
-    return df_text[['title', column, 'stemmed', 'lemmatized', 'clean', 'words']]
   
 ################################ Main Data Prep #########################################
 def prep_sweep_data(df):
     '''
-    Accepts a pandas dataframe with lat/long values in NAD1983StatePlaneCaliforniaVFIPS0405 feet projection and
-    transforms lat/long values to EPSG:4326 World Geodetic System 1984 - used in GPS [Standard].
-    
-    Returns transformed latitude and longitude columns.
+    Accepts parking citation data from The City of Los Angeles.
+    Returns prepared version of the data for exploration.
     
     Requirements
     ------------
@@ -281,13 +157,11 @@ def prep_sweep_data(df):
     Parameters
     ----------
     df : pandas.core.DataFrame
-        Any pandas dataframe with latitude and longitude columns with coordinates measured
-        in NAD1983StatePlaneCaliforniaVFIPS0405 feet projection.
-        
+        Parking citation data from The City of Los Angeles.
     Returns
     -------
     df : pandas.core.DataFrame
-        Returns a pandas dataframe with latitude and longitude columns with EPSG:4326 values.
+        Returns a prepared parking citation data.
     '''
     filename = 'train.csv'
     
