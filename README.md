@@ -15,7 +15,7 @@ Using parking citation data, social media data, and city council records the aim
 - Expired registration on a vehicle
 - Peak/rush hour and anti-gridlock zone parking restrictions
 - Vehicles displaying recently expired permits within preferential parking districts were granted a two-week grace period following the expiration
-- No ticket or tow for abandoned vehicles, overnight parking, or oversize vehicles.<br>
+- No ticket or tow for abandoned vehicles, overnight parking, or oversize vehicles." - [source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)<br>
 
 
 ### Deliverables
