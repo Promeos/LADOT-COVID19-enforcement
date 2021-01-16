@@ -132,7 +132,6 @@ def add_features(df):
     issue_year = df.issue_date.dt.year,
     issue_hour = df.issue_time.dt.hour,
     issue_minute = df.issue_time.dt.minute,
-    issue_time = df.issue_time.dt.time
 )
     # Cast new features from float to int dtype.
     df.issue_year = df.issue_year.astype(int)
