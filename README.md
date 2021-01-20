@@ -2,7 +2,7 @@
 
 # LADOT COVID19 Enforcement
 ## Goals
-Using parking citation data, social media data, and city council records the aim of this project is to analyze the City of Los Angeles' transition plan to resume street sweeper services on 10/15/2020.
+This project aims to analyze the Los Angeles Department of Transportation's plan to resume street sweeper services on 10/15/2020.
 
 1. Use NLP techniques to analyze the intent of documents from City Council and the Department of Transportation.
 2. Analyze the effectiveness of "public outreach" efforts using social media, news articles, and historical citation data.
