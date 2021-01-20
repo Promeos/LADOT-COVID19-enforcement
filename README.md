@@ -5,7 +5,7 @@
 Using parking citation data, social media data, and city council records the aim of this project is to analyze the City of Los Angeles' transition plan to resume street sweeper services on 10/15/2020.
 
 1. Read documents from City Council and the Department of Transportation.
-2. Analyze the effectiveness of "public outreach" using social media, youtube, and news articles.
+2. Analyze the effectiveness of "public outreach" efforts using social media and news articles.
 
 ## Background
 
@@ -67,12 +67,12 @@ This dataset is maintained using Socrata's API and Kaggle's API. Socrata has ass
 **City Documents**
 Access the Los Angeles City Council documents [here](https://cityclerk.lacity.org/lacityclerkconnect/index.cfm?fa=ccfi.viewrecord&cfnumber=20-1365).
 
-## Initial Thoughts & Hypotheses
-### Thoughts
+## Initial Thoughts
 - Why did street sweeping services resume?
 - What was the city's public outreach? Was it effective?
 - How did residents react?
 - Which streets and neighborhoods were effected the most?
+- How can LADOT improve their outreach methods moving forward?
 
 ## Project Steps
 ### Acquire
@@ -114,7 +114,6 @@ Parking Citations
 
 Text data
 [Newspapers: City Council, LADOT]
-[Youtube: City Council, LADOT]
 [Twitter: City Council, LADOT]
 [Sentiment Analysis]
 [Word Clouds]
