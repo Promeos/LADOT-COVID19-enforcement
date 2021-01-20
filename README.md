@@ -4,8 +4,10 @@
 ## Goals
 Using parking citation data, social media data, and city council records the aim of this project is to analyze the City of Los Angeles' transition plan to resume street sweeper services on 10/15/2020.
 
-1. Read documents from City Council and the Department of Transportation.
-2. Analyze the effectiveness of "public outreach" efforts using social media and news articles.
+1. Use NLP techniques to analyze the intent of documents from City Council and the Department of Transportation.
+2. Analyze the effectiveness of "public outreach" efforts using social media, news articles, and historical citation data.
+3. Use Street Sweeping Citation data to determine the impact of "public outreach" efforts.
+4. Recommend ways for LADOT to improve their outreach efforts.
 
 ## Background
 
