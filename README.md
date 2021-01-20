@@ -12,9 +12,9 @@ This project aims to analyze the Los Angeles Department of Transportation's plan
 ## Background
 
 ### Street Sweeping Stops
-On __March 16__, the Mayor of Los Angeles relaxed parking enforcement across the City, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the outbreak of COVID-19. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
-- Once a week, Angelenos must move their vehicles to make way for street sweepers.
-- If a car remains parked, the owner is issued a $73 fine.
+On March 16, 2020, the Mayor of Los Angeles relaxed parking enforcement across the city, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the outbreak of COVID-19. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
+- Once a week, Angelenos are required to move their vehicles to make way for street sweeping.
+- If the owner does not move their vehicle, they receive a $73 citation.
 
 ### Street Sweeping Starts: Does the public know?
 Between September 1, 2020 and October 14, 2020 LADOT and City Council conducted public outreach to inform Angelenos on the timing of __resumed street sweeping enforcement__." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
