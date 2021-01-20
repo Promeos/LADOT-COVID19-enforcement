@@ -11,23 +11,22 @@ Using parking citation data, social media data, and city council records the aim
 
 ## Background
 
-### Declaration of Local Emergency
-"On March 4, 2020, the Mayor [of Los Angeles] declared a local emergency in response to the COVID-19 pandemic. On March 6, the City Council approved a resolution ratifying the Declaration of Local Emergency. With the Declaration of a Local Emergency and the unique public health risks posed by COVID-19, on __March 16__, the Mayor relaxed parking enforcement across the City putting a temporary halt to the issuance of several citations so that residents can more effectively practice the safe social distancing necessary during the outbreak. Subsequently, LADOT relaxed enforcement for the following categories:<br>
-- __Residential street sweeping__
-- Expired registration on a vehicle
-- Peak/rush hour and anti-gridlock zone parking restrictions
-- Vehicles displaying recently expired permits within preferential parking districts were granted a two-week grace period following the expiration
-- No ticket or tow for abandoned vehicles, overnight parking, or oversize vehicles." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
+### Street Sweeping Stops
+On __March 16__, the Mayor of Los Angeles relaxed parking enforcement across the City, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the COVID-19 outbreak. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
 
 ### Transition Plan
 "On September 1, 2020, City Council instructed LADOT to continue the current relaxed enforcement until October 1, 2020 and to report back with a phased transition plan to resume parking enforcement and propose economic relief measures for parking fines." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)<br>
 
 ### Public Outreach
+
+
 #### LADOT Press Release<br>
 "Per Council instruction, LADOT will conduct outreach to inform Angelenos on timing of resumed enforcement as well as financial assistance programs via social media and outreach to press". - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
 
 #### Los Angeles City Council<br>
 Beginning October 15,2020, resume parking enforcement and impounds, when applicable, for street cleaning, abandoned vehicles, oversize and overnight restrictions, peak hour and anti-gridlock zones, and expired registration, __and conduct public outreach and education between October 1,2020 and October 14,2020__. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/public-outreach-period.pdf)
+
+</details>
 
 ## Deliverables
 - [Tablaeu Map](https://public.tableau.com/profile/promeos#!/vizhome/LADOTCOVID19StreetSweeperCitations/enforcement-10152020?publish=yes)
