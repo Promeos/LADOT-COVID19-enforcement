@@ -14,19 +14,8 @@ This project aims to analyze the Los Angeles Department of Transportation's plan
 ### Street Sweeping Stops
 On __March 16__, the Mayor of Los Angeles relaxed parking enforcement across the City, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the COVID-19 outbreak. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
 
-### Transition Plan
-"On September 1, 2020, City Council instructed LADOT to continue the current relaxed enforcement until October 1, 2020 and to report back with a phased transition plan to resume parking enforcement and propose economic relief measures for parking fines." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)<br>
-
-### Public Outreach
-
-
-#### LADOT Press Release<br>
-"Per Council instruction, LADOT will conduct outreach to inform Angelenos on timing of resumed enforcement as well as financial assistance programs via social media and outreach to press". - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
-
-#### Los Angeles City Council<br>
-Beginning October 15,2020, resume parking enforcement and impounds, when applicable, for street cleaning, abandoned vehicles, oversize and overnight restrictions, peak hour and anti-gridlock zones, and expired registration, __and conduct public outreach and education between October 1,2020 and October 14,2020__. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/public-outreach-period.pdf)
-
-</details>
+### Street Sweeping Starts: Does the public know?
+Between September 1, 2020 and October 14, 2020 LADOT and City Council conducted public outreach to inform Angelenos on the timing of resumed street sweeping enforcement." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
 
 ## Deliverables
 - [Tablaeu Map](https://public.tableau.com/profile/promeos#!/vizhome/LADOTCOVID19StreetSweeperCitations/enforcement-10152020?publish=yes)
