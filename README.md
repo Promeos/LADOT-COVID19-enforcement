@@ -12,10 +12,10 @@ This project aims to analyze the Los Angeles Department of Transportation's plan
 ## Background
 
 ### Street Sweeping Stops
-On __March 16__, the Mayor of Los Angeles relaxed parking enforcement across the City, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the COVID-19 outbreak. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
+On __March 16__, the Mayor of Los Angeles relaxed parking enforcement across the City, putting a __temporary halt to the issuance of street sweeping citations__.  This allowed residents to effectively practice the safe social distancing necessary during the outbreak of COVID-19. - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/LADOT-transition-plan.pdf)
 
 ### Street Sweeping Starts: Does the public know?
-Between September 1, 2020 and October 14, 2020 LADOT and City Council conducted public outreach to inform Angelenos on the timing of resumed street sweeping enforcement." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
+Between September 1, 2020 and October 14, 2020 LADOT and City Council conducted public outreach to inform Angelenos on the timing of __resumed street sweeping enforcement__." - [Source](https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/LADOT/enforcement.pdf)
 
 ## Deliverables
 - [Tablaeu Map](https://public.tableau.com/profile/promeos#!/vizhome/LADOTCOVID19StreetSweeperCitations/enforcement-10152020?publish=yes)
