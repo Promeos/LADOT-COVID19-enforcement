@@ -70,7 +70,7 @@ def base_url():
     -------
     string url to acquire LinkedIn data.
     '''
-    return  "https://api.twitter.com/2/
+    return  "https://api.twitter.com/2/"
 
 
 def response_endpoint(endpoint):
