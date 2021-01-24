@@ -7,3 +7,4 @@ __pycache__
 sweeper_routes/
 *.mov
 news.ipynb
+env.py
