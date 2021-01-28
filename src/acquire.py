@@ -1,17 +1,21 @@
 import pandas as pd
 import os
-import time
+import sys
+
 import json
-import requests
-import os
-from time import sleep
+
+import time
 from time import time
-from bs4 import BeautifulSoup
+
+import tqdm
+import requests
 from requests import get
+from time import sleep
+
+from bs4 import BeautifulSoup
 from random import randint
 from warnings import warn
 from IPython.core.display import clear_output
-
 
 # Functions to scrape youtube comments.
 from selenium.webdriver import Chrome
@@ -19,6 +23,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+sys.path.insert(1, '../env.py')
+import env
+
 
 #################################### Acquire Parking Citation Data ######################################
 def get_citation_data():
@@ -29,7 +37,7 @@ def get_citation_data():
     - Download dataset from https://www.kaggle.com/cityofLA/los-angeles-parking-citations
     
     df : pandas.core.DataFrame
-        Pandas dataframe of parking citations from Los Angeles.
+        Pandas dataframe of Los Angeles parking citations.
     '''
     df = pd.read_csv('parking-citations.csv')
     return df
@@ -37,8 +45,8 @@ def get_citation_data():
 
 def get_sweep_data():
     '''
-    Returns a dataframe of Street Sweeping citations issued in Los Angeles, CA
-    from 2017-2020.
+    Returns a dataframe of Street Sweeping citations issued in
+    Los Angeles, CA from 01/01/2017 - 12/22/2020
     '''
     # File name of street sweeping data
     filename = 'street-sweeping-data.csv'
@@ -60,55 +68,31 @@ def get_sweep_data():
 ###################### REST API Functions ######################
 def auth():
     '''
-    Token to access Twitter's API
+    Bearer Token used to access Twitter's API V2
+    
+    Returns
+    -------
+    env.bearer_token : str
+        alphanumeric string
     '''
     return env.bearer_token
 
 
-def create_headers(bearer_token):
-    headers = {"Authorization": "Bearer {}".format(bearer_token)}
+def create_header():
+    '''
+    Header required to access Twitter's API V2
+    
+    Returns
+    -------
+    headers : dict
+        A dictionary to store login credentials. This 
+        header is required for all GET requests to Twitter's API.
+    '''
+    headers = {"Authorization": "Bearer {}".format(auth())}
     return headers
 
 
-def base_url():
-    '''
-    Returns base url to acquire data from Twitter using RESTAPI.
-    
-    Parameters
-    ----------
-    None
-    
-    Returns
-    -------
-    string url to acquire twitter data.
-    '''
-    return  "https://api.twitter.com/2/"
-
-
-def response_endpoint(endpoint):
-    '''
-    Accepts endpoint from Twitter's API.
-    
-    Returns 
-    Parameters
-    ----------
-    endpoint : str
-        A possible path of "https://api.twitter.com/2/
-        
-        Example
-        -------
-        endpoint = "users"
-        base_url = "https://api.twitter.com/2/"
-        
-    Returns
-    -------
-    requests.models.Response object
-    '''
-    get_request = requests.get(base_url() + endpoint)
-    return get_request
-
-
-def check_local_cache(data):
+def check_local_cache(file):
     '''
     Accepts an endpoint from "https://api.twitter.com/2/ and checks to see if a local
     cached version of the data exists
@@ -125,14 +109,126 @@ def check_local_cache(data):
     Return cached file as a pandas DataFrame if : os.path.isfile(file_name) == True
     Return False otherwise
     '''
-    file_name = f'{data}.csv'
+    file_name = f'{file}.csv'
     
     if os.path.isfile(file_name):
         return pd.read_csv(file_name, index_col=False)
     else:
-        return False    
+        return False
     
     
+def acquire_twitter_accounts():
+    '''
+    A list of dictionaries containing the unique twitter id, name, and username of
+    Los Angeles government officials who signed the motion to resume street sweeping
+    on 10/15/2020.
+    
+    Link to document:
+    https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/public-outreach-period.pdf
+    
+    Note: Mayor Gracetti did not sign the motion.
+    '''
+    data = [
+        {
+            "id": "17070113",
+            "name": "MayorOfLA",
+            "username": "MayorOfLA"
+        },
+        {
+            "id": "61261275",
+            "name": "LADOT",
+            "username": "LADOTofficial"
+        },
+        {
+            "id": "956763276",
+            "name": "Nury Martinez",
+            "username": "CD6Nury"
+        },
+        {
+            "id": "893602974",
+            "name": "Curren D. Price, Jr.",
+            "username": "CurrenDPriceJr"
+        },
+        {
+            "id": "341250146",
+            "name": "Joe Buscaino",
+            "username": "JoeBuscaino"
+        }
+    ]
+    
+    # Gil has not tweeted since 2019.
+    # {
+    # "id": "1167156666",
+    # "name": "Gil Cedillo",
+    # "username": "cmgilcedillo"
+    # }
+    twitter_accounts = pd.DataFrame.from_records(data)
+    twitter_accounts.name = twitter_accounts.name.str.replace('MayorOfLA', 'Eric Garcetti')
+    twitter_accounts.name = twitter_accounts.name.str.replace('LADOT', 'Los Angeles Department of Transportation')
+    return twitter_accounts
+    
+    
+def acquire_twitter_data():
+    '''
+    Accepts an endpoint from "https://api.twitter.com/2/ and checks to see if a local
+    cached version of the data exists
+    
+    Returns endpoint data as a pandas DataFrame if a local cache exists
+    Returns False if a local cache does not exist.
+    
+    Parameters
+    ----------
+    data : str
+        
+    Returns
+    -------
+    Return cached file as a pandas DataFrame if : os.path.isfile(file_name) == True
+    Return False otherwise
+    '''
+    cache = check_local_cache()
+    
+    
+    if cache == False:
+        twitter_accounts = acquire_twitter_accounts()
+        num_accounts = len(twitter_accounts)
+        credentials = create_header()
+        
+        df = pd.DataFrame()
+
+        for index, account in tqdm.tqdm(twitter_accounts.iterrows(), total=num_accounts):
+            url = f"https://api.twitter.com/2/users/{account['id']}/tweets?user.fields=created_at,description"\
+                + ",entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics"\
+                + ",url,username,verified&max_results=100&start_time=2020-09-30T00:00:00Z&end_time=2020-10-15T00:00:00"\
+                + "Z&expansions=&tweet.fields=created_at,public_metrics,source,text"
+            response = requests.request("GET", url, headers=credentials)
+            sleep(3)
+
+            tweets = json.loads(response.text.encode('utf8'))['data']
+
+            for tweet in tweets:
+                tweet_data = pd.DataFrame({'post_time': pd.to_datetime(tweet['created_at']),
+                                           'id': account['id'],
+                                           'name': account['name'],
+                                           'username': account['username'],
+                                           'tweet': tweet['text'].lower(),
+                                           'retweet_count': tweet['public_metrics']['retweet_count'],
+                                           'reply_count': tweet['public_metrics']['reply_count'],
+                                           'like_count': tweet['public_metrics']['like_count'],
+                                           'quote_count': tweet['public_metrics']['quote_count'],
+                                           'tweet_url_id': tweet['id']
+                                           },index=[0])
+                df = pd.concat([df, tweet_data])
+                
+        
+        df = df.sort_values(by=['post_time']).reset_index(drop=True)
+        df = df.assign(
+            total_engagement = df[['retweet_count', 'reply_count', 'like_count', 'quote_count']].sum(axis=1)
+        )
+        
+        return df
+    else:
+        return cache
+
 ############################# Acquire News Articles ######################################
 def url_request(url):
     '''
