@@ -17,12 +17,12 @@ from random import randint
 from warnings import warn
 from IPython.core.display import clear_output
 
-# Functions to scrape youtube comments.
-from selenium.webdriver import Chrome
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# Functions to scrape youtube comments
+# from selenium.webdriver import Chrome
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
 
 sys.path.insert(1, '../env.py')
 import env
@@ -65,7 +65,7 @@ def get_sweep_data():
         return df_sweep
 
 
-###################### REST API Functions ######################
+#################################### Acquire Twitter Data ###################################################
 def auth():
     '''
     Bearer Token used to access Twitter's API V2
@@ -94,30 +94,26 @@ def create_header():
 
 def check_local_cache(file):
     '''
-    Accepts an endpoint from "https://api.twitter.com/2/ and checks to see if a local
-    cached version of the data exists
-    
-    Returns endpoint data as a pandas DataFrame if a local cache exists
-    Returns False if a local cache does not exist.
+    Accepts a file name and checks to see if a local
+    cached version of the data exists.
     
     Parameters
     ----------
-    data : str
+    file : str
+        The name of the file in the local directory
         
     Returns
     -------
     Return cached file as a pandas DataFrame if : os.path.isfile(file_name) == True
     Return False otherwise
     '''
-    file_name = f'{file}.csv'
-    
-    if os.path.isfile(file_name):
-        return pd.read_csv(file_name, index_col=False)
+    if os.path.isfile(file):
+        return pd.read_csv(file, index_col=False)
     else:
         return False
     
     
-def acquire_twitter_accounts():
+def get_twitter_usernames():
     '''
     A list of dictionaries containing the unique twitter id, name, and username of
     Los Angeles government officials who signed the motion to resume street sweeping
@@ -127,6 +123,11 @@ def acquire_twitter_accounts():
     https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/public-outreach-period.pdf
     
     Note: Mayor Gracetti did not sign the motion.
+    
+    Returns
+    -------
+    twitter_accounts : pandas.core.DataFrame
+        A dataframe containing the twitter id, name, and username of each government entity.
     '''
     data = [
         {
@@ -162,51 +163,23 @@ def acquire_twitter_accounts():
     # "name": "Gil Cedillo",
     # "username": "cmgilcedillo"
     # }
+    
+    # Transform the list of dictionaries into a dataframe
     twitter_accounts = pd.DataFrame.from_records(data)
+    
+    # Format the names of the Mayor of Los Angeles and LADOT.
     twitter_accounts.name = twitter_accounts.name.str.replace('MayorOfLA', 'Eric Garcetti')
     twitter_accounts.name = twitter_accounts.name.str.replace('LADOT', 'Los Angeles Department of Transportation')
+    
+    # Return the dataframe of Twitter accounts.
     return twitter_accounts
-    
-    
-def acquire_twitter_data():
+
+
+def tweet_info(account, tweet):
     '''
-    Accepts an endpoint from "https://api.twitter.com/2/ and checks to see if a local
-    cached version of the data exists
     
-    Returns endpoint data as a pandas DataFrame if a local cache exists
-    Returns False if a local cache does not exist.
-    
-    Parameters
-    ----------
-    data : str
-        
-    Returns
-    -------
-    Return cached file as a pandas DataFrame if : os.path.isfile(file_name) == True
-    Return False otherwise
     '''
-    cache = check_local_cache()
-    
-    
-    if cache == False:
-        twitter_accounts = acquire_twitter_accounts()
-        num_accounts = len(twitter_accounts)
-        credentials = create_header()
-        
-        df = pd.DataFrame()
-
-        for index, account in tqdm.tqdm(twitter_accounts.iterrows(), total=num_accounts):
-            url = f"https://api.twitter.com/2/users/{account['id']}/tweets?user.fields=created_at,description"\
-                + ",entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics"\
-                + ",url,username,verified&max_results=100&start_time=2020-09-30T00:00:00Z&end_time=2020-10-15T00:00:00"\
-                + "Z&expansions=&tweet.fields=created_at,public_metrics,source,text"
-            response = requests.request("GET", url, headers=credentials)
-            sleep(3)
-
-            tweets = json.loads(response.text.encode('utf8'))['data']
-
-            for tweet in tweets:
-                tweet_data = pd.DataFrame({'post_time': pd.to_datetime(tweet['created_at']),
+    tweet_data = pd.DataFrame({'post_time': pd.to_datetime(tweet['created_at']),
                                            'id': account['id'],
                                            'name': account['name'],
                                            'username': account['username'],
@@ -217,25 +190,99 @@ def acquire_twitter_data():
                                            'quote_count': tweet['public_metrics']['quote_count'],
                                            'tweet_url_id': tweet['id']
                                            },index=[0])
+    return tweet_data
+    
+    
+def get_twitter_data():
+    '''
+    Returns the twitter data for each city council official that signed a memo to resume Street Sweeping on
+    10/15/2020.
+    
+    Link to document:
+    https://github.com/Promeos/LADOT-COVID19-enforcement/blob/main/city-documents/city-council/public-outreach-period.pdf
+
+    Note: Mayor Gracetti did not sign the motion.
+    
+        
+    Returns (Conditional)
+    -------
+    If `cache` is not False:
+        cache : pandas.core.frame.DataFrame
+            The cached tweets of each city council representative and LADOT between 09/30/2020 - 10/15/2020
+            
+    If `cache` is False:
+        df : pandas.core.frame.DataFrame
+             The cached tweets of each city council representative and LADOT between 09/30/2020 - 10/15/2020
+    '''
+    # Check the local directory for the Twitter data
+    filename = 'tweets.csv'
+    cache = check_local_cache(file=filename)
+    
+    
+    if cache is False:
+        # Store the dict of council members & LADOT's Twitter info.
+        twitter_accounts = get_twitter_usernames()
+        
+        # Calculate the # of Twitter accounts in `twitter_accounts`
+        
+        num_accounts = len(twitter_accounts)
+        
+        # Store the URL header to a variable
+        credentials = create_header()
+        
+        # Create an empty DataFrame to store the tweets from each account
+        df = pd.DataFrame()
+
+        # For each account in the dataframe `twitter_accounts` acquire all tweets from
+        # 09-30-2020 to 10-14-2020.
+        # "tqdm.tqdm()" used to display loading status.
+        for index, account in tqdm.tqdm(twitter_accounts.iterrows(), total=num_accounts):
+            # API URL to acquire data from a specific Twitter account.
+            url = f"https://api.twitter.com/2/users/{account['id']}/tweets?user.fields=created_at,description"\
+                + ",entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics"\
+                + ",url,username,verified&max_results=100&start_time=2020-09-30T00:00:00Z&end_time=2020-10-15T00:00:00"\
+                + "Z&expansions=&tweet.fields=created_at,public_metrics,source,text"
+            
+            # Send a GET response to the API using the URL and bearer token credentials
+            response = get(url, headers=credentials)
+            
+            # Set 3 second delay between each GET request
+            sleep(3)
+
+            # Use json.loads() to index into the `data` key of the response object.
+            # Encode from bytes to UTF-8
+            tweets = json.loads(response.text.encode('UTF-8'))['data']
+
+            # Extract the information from each tweet and store it as a row in `df`.
+            for tweet in tweets:
+                tweet_data = tweet_info(account=account, tweet=tweet)
                 df = pd.concat([df, tweet_data])
                 
-        
+        # Sort the tweets by Timestamp
         df = df.sort_values(by=['post_time']).reset_index(drop=True)
+        
+        # Create a new column to store user engagement per Tweet
         df = df.assign(
             total_engagement = df[['retweet_count', 'reply_count', 'like_count', 'quote_count']].sum(axis=1)
         )
         
+        # Cache the dataframe as a CSV file in the local directory.
+        df.to_csv(filename, index=False)
+        
+        # Return Twitter datav
         return df
     else:
+        # Return Twitter data
         return cache
 
-############################# Acquire News Articles ######################################
+    
+####################################### Acquire News Article Data ######################################
 def url_request(url):
     '''
     Accepts a URL
     Returns a response object
     '''
-    headers = {"User-Agent": "Codeup Data Science"}
+    headers = {"User-Agent": "Promeos"}
     response = get(url, headers=headers)
     return response
     
@@ -263,7 +310,7 @@ def get_news_articles():
     '''
     file_name = 'news_articles.json'
     # Check to see if a local cache of data exists
-    cache = check_local_cache(file_name=file_name)
+    cache = check_local_cache(file=file_name)
     
     # If a local cache does not exist, scrape the blog posts
     if cache is False:
