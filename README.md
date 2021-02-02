@@ -1,6 +1,6 @@
 ![Header](visuals/ladot.png)
 
-# LADOT COVID-19 Transition Plan
+# LADOT Street Sweeping Transition Plan
 
 ## Goals
 This project aims to analyze the Los Angeles Department of Transportation's plan to resume street sweeper services on 10/15/2020.
