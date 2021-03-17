@@ -117,7 +117,6 @@ Text Analysis
 #### Hypotheses
 1. Fines collected from 10/15/2020 - 11/15/2020 significantly greater than average?
 2. Was the public's sentiment of LADOT's enforcement on 10/15/2020 negative?
-3. Public outreach efforts were ineffective.
 
 ### Conclusions
 
